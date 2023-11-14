@@ -1,2 +1,2 @@
 # monitor-iot
-Front-end project using React
+Front-end project using NextJS 14
