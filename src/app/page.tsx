@@ -36,8 +36,8 @@ export default function Home() {
     console.log(`Submit ${user} & ${password}`);
   };
   return (
-    <main className={`${theme} text-foreground bg-background`}>
-      <div className="flex flex-col items-center justify-center w-full h-screen">
+    <main className={`${theme} text-foreground bg-background flex flex-col items-center`}>
+      <div className="w-full lg:w-1/2 h-screen px-8 flex flex-col justify-center items-center border-2 rounded-xl shadow-lg">
         <div className="w-full m-12 flex flex-row align-middle justify-between max-w-3xl">
           <h1>Access your account</h1>
           <Switch
