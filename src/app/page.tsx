@@ -3,11 +3,13 @@ import React, { useState } from "react";
 import { Switch } from "@nextui-org/switch";
 import { Input } from "@nextui-org/input";
 import { Button } from "@nextui-org/button";
-import { MoonIcon } from "../../public/assets/MoonIcon";
-import { SunIcon } from "../../public/assets/SunIcon";
 import { LoginFields } from "./lib/enums";
-import { EyeFilledIcon } from "../../public/assets/EyeFilledIcon";
-import { EyeSlashFilledIcon } from "../../public/assets/EyeSlashFilledIcon";
+import {
+  EyeFilledIcon,
+  EyeSlashFilledIcon,
+  MoonIcon,
+  SunIcon
+  } from "@/app/public/Icons";
 
 export default function Home() {
   const [theme, setTheme] = React.useState("dark");
@@ -45,13 +47,13 @@ export default function Home() {
             color="default"
             startContent={<SunIcon />}
             endContent={<MoonIcon />}
-            thumbIcon={({ isSelected, className }) =>
+            /* thumbIcon={({ isSelected, className }) =>
               isSelected ? (
                 <SunIcon className={className} />
               ) : (
                 <MoonIcon className={className} />
               )
-            }
+            } */
           >
             {theme} mode
           </Switch>
