@@ -1,13 +1,14 @@
-"use client";
 import React from "react";
 import NavBar from "../ui/dashboard/navbar";
+import { NavigationContextProvider } from "../contexts/navigation-context";
 
 export default function Layout({ children }: { children: React.ReactNode }) {
-  const [theme, setTheme] = React.useState("light");
   return (
-    <div className={`${theme} text-foreground bg-background`}>
-      <NavBar />
-      {children}
-    </div>
+    <NavigationContextProvider>
+      <div>
+        <NavBar />
+        {children}
+      </div>
+    </NavigationContextProvider>
   );
 }

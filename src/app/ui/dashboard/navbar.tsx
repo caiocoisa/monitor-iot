@@ -1,5 +1,5 @@
 "use client";
-//import Link from "next/link";
+import Link from "next/link";
 import { useState } from "react";
 import {
   Navbar,
@@ -9,7 +9,6 @@ import {
   NavbarMenu,
   NavbarMenuItem,
   NavbarMenuToggle,
-  Link,
   DropdownItem,
   DropdownTrigger,
   Dropdown,
@@ -24,26 +23,27 @@ import {
   ReportIcon,
   SettingsIcon,
 } from "@/app/public/Icons";
+import { useNavigation } from "@/app/hooks/useNavigation";
 
 const menuItems = [
-  { name: "Home", href: "/dashboard", icon: HomeIcon, active: false },
+  { name: "Home", href: "/home", icon: HomeIcon, page: 0 },
   {
     name: "Temperature",
     href: "/temperature",
     icon: TempIcon,
-    active: false,
+    page: 1,
   },
   {
     name: "Reports",
     href: "/reports",
     icon: ReportIcon,
-    active: true,
+    page: 2,
   },
   {
     name: "Settings",
     href: "/settings",
     icon: SettingsIcon,
-    active: false,
+    page: 3,
   },
 ];
 
@@ -52,14 +52,19 @@ const User = {
   name: "User Name",
 };
 export default function NavBar() {
+  const { page, setPage } = useNavigation();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+
+  const handleNavigation = (index: number) => {
+    setPage(index);
+  }
   
   return (
     <Navbar isBordered isMenuOpen={isMenuOpen} onMenuOpenChange={setIsMenuOpen}>
       <NavbarContent className="sm:hidden" justify="start">
         <NavbarMenuToggle
           aria-label={isMenuOpen ? "Close menu" : "Open menu"}
-        />
+          />
       </NavbarContent>
       <NavbarContent className="sm:hidden pr-3" justify="center">
         <NavbarBrand>
@@ -77,10 +82,14 @@ export default function NavBar() {
           {menuItems.map((link) => {
             const LinkIcon = link.icon;
             return (
-              <NavbarItem key={link.name} isActive={link.active}>
-                <Link color={link.active?"success":"foreground"} key={link.name} href={link.href}>
-                  <LinkIcon className="w-5 mr-1"/>
-                  {link.name}
+              <NavbarItem key={link.name} className={link.page===page?"text-secondary":"text-foreground"}>
+                <Link 
+                key={link.name} 
+                href={link.href} 
+                onClick={()=>handleNavigation(link.page)}
+                className="flex"
+                >
+                  <LinkIcon className="w-5 mr-1"/> {link.name}
                 </Link>
               </NavbarItem>
             );
@@ -119,18 +128,17 @@ export default function NavBar() {
       </NavbarContent>
 
       <NavbarMenu>
-        {menuItems.map((item, index) => {
-          const LinkIcon = item.icon;
+        {menuItems.map((link, index) => {
+          const LinkIcon = link.icon;
           return (
-          <NavbarMenuItem key={item.name}>
+          <NavbarMenuItem key={link.name} className={link.page===page?"text-secondary":"text-foreground"}>
             <Link
               className="w-full text-3xl mb-3"
-              color={item.active ? "success" : "foreground"}
-              href={item.href}
-              size="lg"
+              href={link.href}
+              onClick={()=>handleNavigation(link.page)}
             >
               <LinkIcon className="w-8 mr-4"/>
-              {item.name}
+              {link.name}
             </Link>
           </NavbarMenuItem>
         )})}

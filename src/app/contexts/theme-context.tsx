@@ -10,7 +10,7 @@ export const ThemeContext = createContext({
 });
 
 export const ThemeContextProvider = ({ children }: ProviderProps) => {
-  const [theme, setTheme] = useState("light");
+  const [theme, setTheme] = useState("dark");
 
   return (
     <ThemeContext.Provider value={{ theme, setTheme }}>{children}</ThemeContext.Provider>
