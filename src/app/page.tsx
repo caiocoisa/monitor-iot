@@ -1,95 +1,96 @@
-import Image from 'next/image'
-import styles from './page.module.css'
+"use client";
+import React, { useState } from "react";
+import { Switch } from "@nextui-org/switch";
+import { Input } from "@nextui-org/input";
+import { Button } from "@nextui-org/button";
+import { LoginFields } from "./lib/enums";
+import {
+  EyeFilledIcon,
+  EyeSlashFilledIcon,
+  MoonIcon,
+  SunIcon
+  } from "@/app/public/Icons";
 
 export default function Home() {
+  const [theme, setTheme] = React.useState("dark");
+  const [user, setUser] = useState("");
+  const [password, setPassword] = useState("");
+  const [isVisible, setIsVisible] = useState(false);
+
+  const handleOnChange = (
+    e: React.ChangeEvent<HTMLInputElement>,
+    field: number
+  ) => {
+    if (field === LoginFields.User) {
+      setUser(e.target.value);
+      return;
+    }
+    setPassword(e.target.value);
+  };
+
+  const toggleVisibility = () => {
+    setIsVisible(!isVisible);
+  };
+
+  const onSubmit = () => {
+    console.log(`Submit ${user} & ${password}`);
+  };
   return (
-    <main className={styles.main}>
-      <div className={styles.description}>
-        <p>
-          Get started by editing&nbsp;
-          <code className={styles.code}>src/app/page.tsx</code>
-        </p>
-        <div>
-          <a
-            href="https://vercel.com?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
+    <main className={`${theme} text-foreground bg-background flex flex-col items-center`}>
+      <div className="w-full lg:w-1/2 h-screen px-8 flex flex-col justify-center items-center border-2 rounded-xl shadow-lg">
+        <div className="w-full m-12 flex flex-row align-middle justify-between max-w-3xl">
+          <h1>Access your account</h1>
+          <Switch
+            defaultSelected
+            onChange={() => setTheme(theme === "dark" ? "light" : "dark")}
+            size="lg"
+            color="default"
+            startContent={<SunIcon />}
+            endContent={<MoonIcon />}
+            /* thumbIcon={({ isSelected, className }) =>
+              isSelected ? (
+                <SunIcon className={className} />
+              ) : (
+                <MoonIcon className={className} />
+              )
+            } */
           >
-            By{' '}
-            <Image
-              src="/vercel.svg"
-              alt="Vercel Logo"
-              className={styles.vercelLogo}
-              width={100}
-              height={24}
-              priority
-            />
-          </a>
+            {theme} mode
+          </Switch>
+        </div>
+        <div className="w-11/12 max-w-3xl flex flex-col gap-4 m-4">
+          <Input
+            type="text"
+            variant="faded"
+            label="User"
+            labelPlacement="inside"
+            value={user}
+            onChange={(e) => handleOnChange(e, LoginFields.User)}
+          />
+          <Input
+            type={isVisible ? "text" : "password"}
+            variant="faded"
+            label="Password"
+            labelPlacement="inside"
+            value={password}
+            onChange={(e) => handleOnChange(e, LoginFields.Password)}
+            endContent={
+              <button
+                className="focus:outline-none"
+                type="button"
+                onClick={toggleVisibility}
+              >
+                {isVisible ? (
+                  <EyeFilledIcon className="text-2xl text-default-400 pointer-events-none" />
+                ) : (
+                  <EyeSlashFilledIcon className="text-2xl text-default-400 pointer-events-none" />
+                )}
+              </button>
+            }
+          />
+          <Button>Log In</Button>
         </div>
       </div>
-
-      <div className={styles.center}>
-        <Image
-          className={styles.logo}
-          src="/next.svg"
-          alt="Next.js Logo"
-          width={180}
-          height={37}
-          priority
-        />
-      </div>
-
-      <div className={styles.grid}>
-        <a
-          href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Docs <span>-&gt;</span>
-          </h2>
-          <p>Find in-depth information about Next.js features and API.</p>
-        </a>
-
-        <a
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Learn <span>-&gt;</span>
-          </h2>
-          <p>Learn about Next.js in an interactive course with&nbsp;quizzes!</p>
-        </a>
-
-        <a
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Templates <span>-&gt;</span>
-          </h2>
-          <p>Explore starter templates for Next.js.</p>
-        </a>
-
-        <a
-          href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Deploy <span>-&gt;</span>
-          </h2>
-          <p>
-            Instantly deploy your Next.js site to a shareable URL with Vercel.
-          </p>
-        </a>
-      </div>
     </main>
-  )
+  );
 }
